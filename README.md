@@ -123,7 +123,7 @@ $$C = v_{1x}v_{2y} - v_{1y}v_{2x}$$
 
 ### 1. 複製專案與安裝依賴
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/HungTaWang/Hamster_Detect
 cd Hamster_Detect
 npm install
 ```
