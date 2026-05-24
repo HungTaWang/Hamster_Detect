@@ -1,4 +1,4 @@
-# 🐹 Hamster Detect | 智能倉鼠手勢互動系統
+# Hamster Detect | 智能倉鼠手勢互動系統
 
 [![Vite](https://img.shields.io/badge/Vite-5.x-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vite.dev/)
 [![MediaPipe](https://img.shields.io/badge/MediaPipe-0.10.0-00C7B7?style=for-the-badge&logo=google&logoColor=white)](https://developers.google.com/mediapipe)
@@ -8,13 +8,13 @@
 
 ---
 
-## 🚀 核心技術亮點 (Technical Highlights)
+## 核心技術亮點 (Technical Highlights)
 
-* 🌐 **邊緣端高效推理**：基於 `Google MediaPipe Tasks Vision API (v0.10.0)` 進行高效能、低延遲的 21 節點手部 3D 骨架追蹤，完全於瀏覽器端執行，確保絕佳隱私。
-* 📐 **3D 空間向量夾角演算法**：突破傳統 2D 距離法易受「手部傾斜、前後深度變化」干擾的瓶頸，全面改用 **3D 關節向量內積法**。即使手指朝向相機鏡頭深度方向彎曲，亦能精確捕捉。
-* 🔄 **鏡像校正外積判定**：利用雙向量外積 (Cross Product) 演算法，並完美融合前置鏡頭鏡像特性與 `handednesses` 分類，實現 100% 精準的手心 (Palm) 與手背 (Back) 面向判定。
-* ⏱️ **時域穩定濾波 (Stable Frames Filter)**：引進 `STABLE_FRAMES` 窗格穩定機制，有效消除高頻手部顫抖或暫態誤判，帶來極致流暢、不跳變的影像切換體驗。
-* 🎨 **極致現代 Glassmorphism 響應式 UI**：
+* **邊緣端高效推理**：基於 `Google MediaPipe Tasks Vision API (v0.10.0)` 進行高效能、低延遲的 21 節點手部 3D 骨架追蹤，完全於瀏覽器端執行，確保絕佳隱私。
+* **3D 空間向量夾角演算法**：突破傳統 2D 距離法易受「手部傾斜、前後深度變化」干擾的瓶頸，全面改用 **3D 關節向量內積法**。即使手指朝向相機鏡頭深度方向彎曲，亦能精確捕捉。
+* **鏡像校正外積判定**：利用雙向量外積 (Cross Product) 演算法，並完美融合前置鏡頭鏡像特性與 `handednesses` 分類，實現 100% 精準的手心 (Palm) 與手背 (Back) 面向判定。
+* **時域穩定濾波 (Stable Frames Filter)**：引進 `STABLE_FRAMES` 窗格穩定機制，有效消除高頻手部顫抖或暫態誤判，帶來極致流暢、不跳變的影像切換體驗。
+* **極致現代 Glassmorphism 響應式 UI**：
   * **電腦端**：左側固定寬度 (240px) 側邊雙面板，將視訊主體完美居中，黑框與倉鼠顯示框左右同寬、極具視覺張力。
   * **行動端**：底部 50/50 寬度完美並排，倉鼠框採用「上圖下文」高垂直佈局對齊黑框高度，確保小螢幕下完全不重疊、不遮擋核心偵測畫面。
 
@@ -28,7 +28,7 @@
 graph TD
     A[Webcam 視訊串流] --> B[MediaPipe Hand Landmarker 偵測]
     B --> C{偵測到手部?}
-    C -- 否 --> D[狀態重設 / 顯示等待畫面 🐹]
+    C -- 否 --> D[狀態重設 / 顯示等待畫面]
     C -- 是 --> E[解析 21 個 3D 關節點座標]
     E --> F[3D 關節角度計算: 內積與 Cosine 判定彎曲]
     E --> G[手掌朝向計算: 2D 外積與鏡像左右手校正]
@@ -44,7 +44,7 @@ graph TD
 
 ---
 
-## 🧠 核心算法與數學原理 (Algorithm & Mathematics)
+## 核心算法與數學原理 (Algorithm & Mathematics)
 
 ### 1. 3D 關節角度計算（3D 空間向量內積法）
 
@@ -114,11 +114,11 @@ $$C = v_{1x}v_{2y} - v_{1y}v_{2x}$$
 
 ---
 
-## 🛠️ 開發環境與本地端運行 (Local Development)
+## 開發環境與本地端運行 (Local Development)
 
 本專案採用極速的前端建構工具 **Vite** 進行開發與打包。
 
-### 📋 先決條件
+### 先決條件
 * 已安裝 [Node.js](https://nodejs.org/) (建議版本 v18 或 v20 以上)。
 
 ### 1. 複製專案與安裝依賴
@@ -142,33 +142,3 @@ npm run build
 # 本地預覽生產環境編譯後的靜態網頁
 npm run preview
 ```
-
----
-
-## 🚀 GitHub Actions 自動化部署 (CI/CD)
-
-專案已內建完整的 CI/CD 工作流。每當您將程式碼推送至 `main` 分支時，GitHub Actions 會自動執行編譯並部署至 **GitHub Pages**。
-
-### 📂 部署設定檔說明
-工作流定義於 [.github/workflows/deploy.yml](file:///.github/workflows/deploy.yml)：
-* **觸發點**：當程式碼 `push` 至 `main` 分支，或手動觸發 `workflow_dispatch`。
-* **建置環境**：Node.js 20 容器。
-* **部署目標**：將編譯輸出的 `./dist` 內容自動發佈至本專案的 `gh-pages` 分支。
-
-### ⚙️ GitHub Pages 首次啟用步驟
-1. 確保您的 `vite.config.js` 中的 `base` 設定與您的 Repository 名稱一致：
-   ```javascript
-   export default defineConfig({
-     base: '/Hamster_Detect/', // 必須為 /您的倉庫名稱/
-   });
-   ```
-2. 推送程式碼至 GitHub：
-   ```bash
-   git add .
-   git commit -m "docs: update README with professional layout and features"
-   git push origin main
-   ```
-3. 前往您 GitHub 專案的 **Settings** > **Pages**：
-   * 在 **Build and deployment** 下方的 **Source** 選擇 **Deploy from a branch**。
-   * 將 **Branch** 設為 `gh-pages`，目錄選擇 `/ (root)`，點擊 **Save**。
-4. 部署完成後，即可透過 `https://<您的使用者名稱>.github.io/Hamster_Detect/` 體驗最絲滑的倉鼠手勢偵測！
