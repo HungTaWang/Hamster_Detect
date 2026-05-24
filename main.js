@@ -230,19 +230,19 @@ function classifyGesture(fingers, numHands, allFingers, allHandedness, allLandma
 
 // ─── 手勢對應圖片 ────────────────────────────────────────────
 const GESTURE_MAP = {
-  'double_victory':  { img: './assets/double_ya.jpg', label: '✌️✌️ 你是棒倉鼠' },
-  'double_thumbsup': { img: './assets/cheers.jpg',    label: '👍👍 倉鼠歡呼！' },
-  'double_open':     { img: './assets/scared.jpg',    label: '🖐️🖐️ 倉鼠嚇到！' },
-  'double_fist':     { img: './assets/angry.jpg',     label: '✊✊ 倉鼠生氣！' },
-  'two_hands_sides': { img: './assets/heart.jpg',     label: '🤲 倉鼠的愛！' },
-  'victory':         { img: './assets/ya.jpg',        label: '✌️ 倉鼠手收！' },
-  'thumbsup':        { img: './assets/haha.jpg',      label: '👍 開心倉鼠！' },
-  'pointing':        { img: './assets/cool.png',      label: '☝️ 酷倉鼠！' },
-  'open_palm':       { img: './assets/wait.jpg',      label: '🖐️ 倉鼠嗨！' },
-  'open_back':       { img: './assets/shy.jpg',       label: '🫲 倉鼠害羞！' },
+  'double_victory':  { img: './assets/double_ya.jpg', label: '✌️✌️ 你是棒鼠鼠' },
+  'double_thumbsup': { img: './assets/cheers.jpg',    label: '👍👍 鼠鼠歡呼！' },
+  'double_open':     { img: './assets/scared.jpg',    label: '🖐️🖐️ 鼠鼠嚇到！' },
+  'double_fist':     { img: './assets/angry.jpg',     label: '✊✊ 氣氣鼠！' },
+  'two_hands_sides': { img: './assets/heart.jpg',     label: '🤲 鼠鼠的愛！' },
+  'victory':         { img: './assets/ya.jpg',        label: '✌️ 鼠鼠手收！' },
+  'thumbsup':        { img: './assets/haha.jpg',      label: '👍 開心鼠鼠！' },
+  'pointing':        { img: './assets/cool.png',      label: '☝️ 酷鼠鼠！' },
+  'open_palm':       { img: './assets/wait.jpg',      label: '🖐️ 鼠鼠嗨！' },
+  'open_back':       { img: './assets/shy.jpg',       label: '🫲 鼠鼠害羞！' },
   'fist':            { img: './assets/chef.jpg',      label: '✊ 料理鼠王！' },
-  'three':           { img: './assets/confuse.jpg',   label: '🤔 倉鼠困惑！' },
-  'unknown':         { img: './assets/confuse.jpg',   label: '❓ 倉鼠困惑...' },
+  'three':           { img: './assets/confuse.jpg',   label: '🤔 鼠鼠困惑！' },
+  'unknown':         { img: './assets/confuse.jpg',   label: '❓ 鼠鼠困惑...' },
 };
 
 // ─── UI 更新 ─────────────────────────────────────────────────
@@ -299,13 +299,27 @@ function updateDebug(fingers, gestureKey, numHands) {
   const { thumbUp, indexUp, middleUp, ringUp, pinkyUp, _raw } = fingers;
   // 顯示伸直/彎曲 + 實際 PIP cos 數值（越負 = 越直）
   const row = (label, up, cos) => {
-    const cosStr = cos !== undefined ? ` <span style="color:#94a3b8;font-size:11px">(${cos.toFixed(2)})</span>` : '';
+    // 1. 處理數值格式
+    const val = cos !== undefined ? cos.toFixed(2) : '';
+    const isNegative = val.startsWith('-');
+    const numberValue = isNegative ? val.substring(1) : val; // 取出純數字部分
+    const sign = isNegative ? '-' : ' '; // 符號部分
+
+    // 2. 狀態顏色顯示
     const state = up
       ? '<span style="color:#4ade80;font-weight:bold">▶ 伸</span>'
       : '<span style="color:#f87171">▷ 彎</span>';
-    return `<div style="display:flex;justify-content:space-between;margin-bottom:2px">
+
+    // 3. 組合 HTML
+    // 注意：我們把符號放在一個寬度固定的 span 裡，強制對齊
+    return `<div style="display:flex;justify-content:space-between;margin-bottom:2px;font-family:monospace;">
               <span>${label}</span>
-              <span>${state}${cosStr}</span>
+              <span style="display:flex; align-items:center;">
+                  ${state}
+                  <span style="font-variant-numeric: tabular-nums; margin-left: 8px;">
+                      (<span style="display:inline-block; width:0.6em; text-align:center;">${sign}</span>${numberValue})
+                  </span>
+              </span>
             </div>`;
   };
   el.innerHTML = `
@@ -418,7 +432,7 @@ async function startWebcam() {
 // ─── 初始化 ──────────────────────────────────────────────────
 async function init() {
   try {
-    loadingTitle.innerText = '🐹 載入 AI 模型中...';
+    loadingTitle.innerText = '🐹 載入模型中...';
     loadingSub.innerText   = '正在載入手勢辨識模型（約 5~10 秒）';
 
     const filesetResolver = await FilesetResolver.forVisionTasks(
