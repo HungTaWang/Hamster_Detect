@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🐹 倉鼠手勢比對</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    
+
+    <style>
+    .video-container { position: relative; }   /* 父容器必須 relative */
+    #webcam          { transform: scaleX(-1); } /* video 鏡像翻轉 */
+    #skeleton-canvas {
+      position: absolute;   /* ← 這行是關鍵，缺了骨架永遠看不到 */
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+    }
+    </style>
+    <script type="module" crossorigin src="/Hamster_Detect/assets/index-B4ZeHf_Z.js"></script>
+    <link rel="stylesheet" crossorigin href="/Hamster_Detect/assets/index-CHaisE6a.css">
+  </head>
+  <body>
+
+    <div id="loading">
+      <div class="spinner" id="spinner"></div>
+      <h2 id="loading-title">🐹 載入 AI 模型中...</h2>
+      <p id="loading-sub">正在載入手勢辨識模型</p>
+      <p id="error-msg"></p>
+    </div>
+
+    <main class="container">
+      <div class="video-container">
+        <video id="webcam" autoplay playsinline muted></video>
+        <canvas id="skeleton-canvas"></canvas>
+      </div>
+
+      <div class="hamster-box">
+        <div class="hamster-header">
+          <span class="pulse-dot"></span>
+          <span class="hamster-title">🐹 倉鼠手勢比對</span>
+        </div>
+
+        <div class="image-wrapper">
+          <img id="hamster-img" src="/Hamster_Detect/assets/wait-CkwVwfZQ.jpg" alt="Hamster" />
+        </div>
+
+        <div class="hand-indicator">
+          <span class="hand-icon" id="hand-left">🤚</span>
+          <span class="hand-icon" id="hand-right">🤚</span>
+        </div>
+
+        <div class="side-label">
+          <span class="side-chip" id="chip-palm">手心 🤲</span>
+          <span class="side-chip" id="chip-back">手背 🫲</span>
+        </div>
+
+        <div class="status-row">
+          <div class="badge" id="badge-hand"><span class="badge-label">手勢</span><span id="hand-label">—</span></div>
+          <div class="badge" id="badge-count"><span class="badge-label">手數</span><span id="count-label">0 隻手</span></div>
+        </div>
+
+        <div id="status-text">伸出你的手 👋</div>
+      </div>
+    </main>
+
+  </body>
+</html>
