@@ -230,18 +230,18 @@ function classifyGesture(fingers, numHands, allFingers, allHandedness, allLandma
 
 // ─── 手勢對應圖片 ────────────────────────────────────────────
 const GESTURE_MAP = {
-  'double_victory':  { img: './assets/double_ya.jpg', label: '✌️✌️ 你是棒鼠鼠' },
-  'double_thumbsup': { img: './assets/cheers.jpg',    label: '👍👍 鼠鼠歡呼！' },
-  'double_open':     { img: './assets/scared.jpg',    label: '🖐️🖐️ 鼠鼠嚇到！' },
-  'double_fist':     { img: './assets/angry.jpg',     label: '✊✊ 氣氣鼠！' },
-  'two_hands_sides': { img: './assets/heart.jpg',     label: '🤲 鼠鼠的愛！' },
-  'victory':         { img: './assets/ya.jpg',        label: '✌️ 鼠鼠手收！' },
-  'thumbsup':        { img: './assets/haha.jpg',      label: '👍 開心鼠鼠！' },
+  'double_victory':  { img: './assets/double_ya.jpg', label: '✌️棒鼠鼠' },
+  'double_thumbsup': { img: './assets/cheers.jpg',    label: '👍鼠鼠歡呼！' },
+  'double_open':     { img: './assets/scared.jpg',    label: '🖐️鼠鼠嚇到！' },
+  'double_fist':     { img: './assets/angry.jpg',     label: '✊氣氣鼠！' },
+  'two_hands_sides': { img: './assets/heart.jpg',     label: '🤲 鼠鼠的愛' },
+  'victory':         { img: './assets/ya.jpg',        label: '✌️ 鼠鼠手收' },
+  'thumbsup':        { img: './assets/haha.jpg',      label: '👍 開心鼠鼠' },
   'pointing':        { img: './assets/cool.png',      label: '☝️ 酷鼠鼠！' },
   'open_palm':       { img: './assets/wait.jpg',      label: '🖐️ 鼠鼠嗨！' },
-  'open_back':       { img: './assets/shy.jpg',       label: '🫲 鼠鼠害羞！' },
-  'fist':            { img: './assets/chef.jpg',      label: '✊ 料理鼠王！' },
-  'three':           { img: './assets/confuse.jpg',   label: '🤔 鼠鼠困惑！' },
+  'open_back':       { img: './assets/shy.jpg',       label: '🫲 鼠鼠害羞' },
+  'fist':            { img: './assets/chef.jpg',      label: '✊ 料理鼠王' },
+  'three':           { img: './assets/confuse.jpg',   label: '❓ 鼠鼠困惑...' },
   'unknown':         { img: './assets/confuse.jpg',   label: '❓ 鼠鼠困惑...' },
 };
 
@@ -324,7 +324,7 @@ function updateDebug(fingers, gestureKey, numHands) {
   };
   el.innerHTML = `
     <div style="color:#fbbf24;margin-bottom:8px;font-size:11px;font-weight:bold;letter-spacing:1px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:4px">
-      🔍 狀態 <span style="color:#475569">(cos)</span>
+      狀態 <span style="color:#475569">(cos)</span>
     </div>
     ${row('拇指', thumbUp, _raw?.tIP)}
     ${row('食指', indexUp, _raw?.iPIP)}
