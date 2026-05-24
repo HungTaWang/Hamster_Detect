@@ -207,7 +207,7 @@ function classifyGesture(fingers, numHands, allFingers, allHandedness, allLandma
     if ((side1 === 'palm' && side2 === 'back') ||
         (side1 === 'back' && side2 === 'palm')) return 'two_hands_sides';
 
-    return 'two_hands';
+    return 'unknown';
   }
 
   // 單手手勢
@@ -222,8 +222,6 @@ function classifyGesture(fingers, numHands, allFingers, allHandedness, allLandma
   if (thumbUp && !indexUp && !middleUp && !ringUp && !pinkyUp) return 'thumbsup';
   if (indexUp && middleUp && !ringUp && !pinkyUp)                           return 'victory';
   if (indexUp && !middleUp && !ringUp && !pinkyUp)                          return 'pointing';
-  if (thumbUp && indexUp && !middleUp && !ringUp && pinkyUp)                return 'iloveyou';
-  if (indexUp && !middleUp && !ringUp && pinkyUp)                           return 'rock';
   if (count >= 4) return side === 'back' ? 'open_back' : 'open_palm';
   if (count === 3) return 'three';
 
@@ -232,22 +230,19 @@ function classifyGesture(fingers, numHands, allFingers, allHandedness, allLandma
 
 // ─── 手勢對應圖片 ────────────────────────────────────────────
 const GESTURE_MAP = {
-  'double_victory':  { img: './assets/double_ya.jpg', label: '✌️✌️ 雙手比YA → 倉鼠雙手YA！' },
-  'double_thumbsup': { img: './assets/cheers.jpg',    label: '👍👍 雙手比讚 → 倉鼠歡呼！' },
-  'double_open':     { img: './assets/scared.jpg',    label: '🖐️🖐️ 雙手張開 → 倉鼠嚇到！' },
-  'double_fist':     { img: './assets/angry.jpg',     label: '✊✊ 雙拳握緊 → 倉鼠生氣！' },
-  'two_hands_sides': { img: './assets/heart.jpg',     label: '🤲 手心手背 → 倉鼠愛心！' },
-  'two_hands':       { img: './assets/cheers.jpg',    label: '👐 雙手出現 → 倉鼠歡呼！' },
-  'victory':         { img: './assets/ya.jpg',        label: '✌️ 比YA → 倉鼠舉手！' },
-  'thumbsup':        { img: './assets/cheers.jpg',    label: '👍 比讚 → 倉鼠讚！' },
-  'pointing':        { img: './assets/cool.png',      label: '☝️ 指向上 → 倉鼠帥！' },
-  'iloveyou':        { img: './assets/heart.jpg',     label: '🤟 我愛你 → 倉鼠愛心！' },
-  'rock':            { img: './assets/cool.png',      label: '🤘 Rock → 倉鼠帥！' },
-  'open_palm':       { img: './assets/wait.jpg',      label: '🖐️ 手心打招呼 → 倉鼠嗨！' },
-  'open_back':       { img: './assets/shy.jpg',       label: '🫲 手背 → 倉鼠害羞！' },
-  'fist':            { img: './assets/angry.jpg',     label: '✊ 握拳 → 倉鼠生氣！' },
-  'three':           { img: './assets/confuse.jpg',   label: '🤔 三指 → 倉鼠困惑！' },
-  'unknown':         { img: './assets/confuse.jpg',   label: '❓ 看不懂 → 倉鼠困惑...' },
+  'double_victory':  { img: './assets/double_ya.jpg', label: '✌️✌️ 你是棒倉鼠' },
+  'double_thumbsup': { img: './assets/cheers.jpg',    label: '👍👍 倉鼠歡呼！' },
+  'double_open':     { img: './assets/scared.jpg',    label: '🖐️🖐️ 倉鼠嚇到！' },
+  'double_fist':     { img: './assets/angry.jpg',     label: '✊✊ 倉鼠生氣！' },
+  'two_hands_sides': { img: './assets/heart.jpg',     label: '🤲 倉鼠的愛！' },
+  'victory':         { img: './assets/ya.jpg',        label: '✌️ 倉鼠手收！' },
+  'thumbsup':        { img: './assets/haha.jpg',      label: '👍 開心倉鼠！' },
+  'pointing':        { img: './assets/cool.png',      label: '☝️ 酷倉鼠！' },
+  'open_palm':       { img: './assets/wait.jpg',      label: '🖐️ 倉鼠嗨！' },
+  'open_back':       { img: './assets/shy.jpg',       label: '🫲 倉鼠害羞！' },
+  'fist':            { img: './assets/chef.jpg',      label: '✊ 料理鼠王！' },
+  'three':           { img: './assets/confuse.jpg',   label: '🤔 倉鼠困惑！' },
+  'unknown':         { img: './assets/confuse.jpg',   label: '❓ 倉鼠困惑...' },
 };
 
 // ─── UI 更新 ─────────────────────────────────────────────────
@@ -278,15 +273,16 @@ let _debugEl = null;
 function _getDebugEl() {
   if (!_debugEl) {
     _debugEl = document.createElement('div');
+    _debugEl.id = 'debug-panel';
     _debugEl.style.cssText = [
       'position:fixed', 'bottom:16px', 'left:16px',
       'background:rgba(8,8,20,0.88)',
-      'color:#e2e8f0', 'padding:12px 16px',
+      'color:#e2e8f0', 'padding:12px 14px',
       'border-radius:14px', 'font-family:"Courier New",monospace',
-      'font-size:13px', 'line-height:1.8',
+      'font-size:13px', 'line-height:1.6',
       'z-index:9999', 'backdrop-filter:blur(10px)',
       'border:1px solid rgba(148,163,184,0.2)',
-      'min-width:200px', 'pointer-events:none',
+      'min-width:140px', 'pointer-events:none',
       'box-shadow:0 4px 24px rgba(0,0,0,0.5)',
     ].join(';');
     document.body.appendChild(_debugEl);
@@ -305,21 +301,25 @@ function updateDebug(fingers, gestureKey, numHands) {
   const row = (label, up, cos) => {
     const cosStr = cos !== undefined ? ` <span style="color:#94a3b8;font-size:11px">(${cos.toFixed(2)})</span>` : '';
     const state = up
-      ? '<span style="color:#4ade80;font-weight:bold">▶ 伸直</span>'
-      : '<span style="color:#f87171">▷ 彎曲</span>';
-    return `${label} ${state}${cosStr}<br>`;
+      ? '<span style="color:#4ade80;font-weight:bold">▶ 伸</span>'
+      : '<span style="color:#f87171">▷ 彎</span>';
+    return `<div style="display:flex;justify-content:space-between;margin-bottom:2px">
+              <span>${label}</span>
+              <span>${state}${cosStr}</span>
+            </div>`;
   };
   el.innerHTML = `
-    <div style="color:#fbbf24;margin-bottom:5px;font-size:11px;letter-spacing:1px">🔍 手指偵測狀態 <span style="color:#475569">(PIP cos)</span></div>
-    ${row('拇指&emsp;&emsp;', thumbUp, _raw?.tIP)}
-    ${row('食指&emsp;&emsp;', indexUp, _raw?.iPIP)}
-    ${row('中指&emsp;&emsp;', middleUp, _raw?.mPIP)}
-    ${row('無名指&emsp;', ringUp, _raw?.rPIP)}
-    ${row('小指&emsp;&emsp;', pinkyUp, _raw?.pPIP)}
-    <div style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(148,163,184,0.2);color:#93c5fd;font-size:12px">
-      手勢識別：<b style="color:#e0f2fe">${gestureKey || '—'}</b>
+    <div style="color:#fbbf24;margin-bottom:8px;font-size:11px;font-weight:bold;letter-spacing:1px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:4px">
+      🔍 狀態 <span style="color:#475569">(cos)</span>
     </div>
-    <div style="color:#475569;font-size:10px;margin-top:3px">cos &lt; -0.5 = 伸直閾值</div>`;
+    ${row('拇指', thumbUp, _raw?.tIP)}
+    ${row('食指', indexUp, _raw?.iPIP)}
+    ${row('中指', middleUp, _raw?.mPIP)}
+    ${row('無名', ringUp, _raw?.rPIP)}
+    ${row('小指', pinkyUp, _raw?.pPIP)}
+    <div style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(148,163,184,0.2);color:#93c5fd;font-size:11px;display:flex;justify-content:space-between">
+      <span>結果:</span> <b style="color:#e0f2fe">${gestureKey || '—'}</b>
+    </div>`;
 }
 
 // ─── 主偵測迴圈 ──────────────────────────────────────────────
@@ -384,7 +384,7 @@ function predictWebcam() {
     } else if (numHands > 0) {
       setImageStable('hand_unknown', GESTURE_MAP.unknown.img, GESTURE_MAP.unknown.label);
     } else {
-      setImageStable('face_neutral', './assets/wait.jpg', '🐹 等你出手...');
+      setImageStable('face_neutral', './assets/wait.jpg', '🐹 等你伸出手收...');
     }
   }
 
